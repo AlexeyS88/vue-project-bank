@@ -11,25 +11,44 @@
       <input type="password" id="password" v-model="password" @blur="pBlur" autocomplete="current-password"/>
       <small v-if="pError">{{ pError }}</small>
     </div>
-    <button class="btn primary" type="submit">Войти</button>
+    <button class="btn primary" type="submit" :disabled="isSubmitting || isTooManyAttempts">Войти</button>
+    <div class="text-danger" v-if="isTooManyAttempts">
+      Вы слишком часто пытаетесь войти в систему. Попробуйте позже.
+    </div>
   </form>
 </template>
 
 <script>
+import {computed, watch} from 'vue'
 import * as yup from 'yup'
 import {useField, useForm} from "vee-validate";
 
 export default {
 setup() {
-  const {handleSubmit, isSubmitting} = useForm()
+  const {handleSubmit, isSubmitting, submitCount} = useForm()
   const {value: email, errorMessage: eError, handleBlur: eBlur} = useField(
       'email',
-      yup.string().trim().required().email(),
+      yup
+          .string()
+          .trim()
+          .required('Пожайлуста, введите email')
+          .email('Необходимо ввести корректный email'),
   );
+  const  MIN_LENGTH = 6;
   const {value: password, errorMessage: pError, handleBlur: pBlur} = useField(
       'password',
-      yup.string().trim().required().min(6)
+      yup
+          .string()
+          .trim()
+          .required('Пожайлуста введите пароль')
+          .min(MIN_LENGTH, `Пароль не может быть меньше ${MIN_LENGTH} символов`)
   );
+  const isTooManyAttempts = computed(() => submitCount.value >= 3);
+  watch(isTooManyAttempts, val => {
+    if (val) {
+      setTimeout(() => submitCount.value = 0, 2000)
+    }
+  })
   const onSubmit = handleSubmit(values => {
     console.log('Form:', values);
   }, errors => {
@@ -43,6 +62,8 @@ setup() {
     eBlur,
     pBlur,
     onSubmit,
+    isSubmitting,
+    isTooManyAttempts,
   };
 }
 }
