@@ -3,7 +3,7 @@ import auth from '../modules/auth.module'
 
 const plugins = []
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.NODE_ENV === 'development') {
     plugins.push(createLogger())
 }
 

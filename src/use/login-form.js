@@ -40,7 +40,7 @@ export function useLoginForm() {
                 console.log('Form:', values);
                 // Здесь добавьте вашу логику (например, отправка на сервер)
                 await store.dispatch('auth/login', values)
-                router.push('/')
+                await router.push('/')
             } catch (e) {
                 console.error('Ошибка:', e);
             }
