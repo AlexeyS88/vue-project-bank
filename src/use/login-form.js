@@ -38,7 +38,6 @@ export function useLoginForm() {
     const onSubmit = handleSubmit(async values => {
             try {
                 console.log('Form:', values);
-                // Здесь добавьте вашу логику (например, отправка на сервер)
                 await store.dispatch('auth/login', values)
                 await router.push('/')
             } catch (e) {

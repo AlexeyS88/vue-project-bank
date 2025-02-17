@@ -21,9 +21,20 @@
 <script>
 
 import {useLoginForm} from "@/use/login-form.js";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
+import {error} from "../../utils/error.js";
 
 export default {
 setup() {
+  const route = useRoute()
+  const store = useStore()
+  if (route.query.msg) {
+    store.dispatch('setMessage', {
+      value: error(route.query.msg),
+      type: 'warning'
+    })
+  }
   return {...useLoginForm()}
 }
 }
