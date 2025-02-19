@@ -22,7 +22,7 @@ export default {
     actions: {
         async login({commit, dispatch}, payload) {
             try {
-                const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${import.meta.env.VITE_FB_KEY}`
+                const url = `${import.meta.env.VITE_FB_AUTH}${import.meta.env.VITE_FB_KEY}`
                 const data = await axios.post(url, {...payload, returnSecureToken: true})
                 commit('setToken', data.data.idToken)
                 commit('clearMessage', null, {root: true})
