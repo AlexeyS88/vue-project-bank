@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    host: '0.0.0.0', // Указывает Vite слушать на всех сетевых интерфейсах
+    port: 5173, // Указывает порт, который вы хотите использовать
+  },
 })

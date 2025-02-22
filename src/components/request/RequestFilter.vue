@@ -1,10 +1,12 @@
 <template>
   <div class="filter">
     <div class="form-control">
-      <input type="text" placeholder="Введите имя" v-model="name">
+      <label for="txt">Введите имя:</label>
+      <input id="txt" type="text" placeholder="Введите имя" v-model="name">
     </div>
     <div class="form-control">
-      <select v-model="status">
+      <label for="status">Выберите статус:</label>
+      <select id="status" v-model="status">
         <option disabled selected>Выберите статус</option>
         <option value="done">Завершён</option>
         <option value="canceled">Отменён</option>
@@ -24,12 +26,14 @@ export default {
   setup(_, { emit }) {
     const name = ref()
     const status = ref()
+
     watch([name, status], values => {
       emit('update:modelValue', {
         name: values[0],
         status: values[1],
       })
     })
+
     const isActive = computed(() => name.value || status.value)
     return {
       name,
@@ -44,4 +48,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+select, input {
+  background-color: bisque;
+}
+.filter {
+  display: flex;
+  align-items: end;
+}
+</style>
