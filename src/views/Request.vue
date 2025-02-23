@@ -7,7 +7,7 @@
     <p><strong>Статус</strong>: <app-status :type="request.data.status"></app-status></p>
 
     <div class="form-control">
-      <label for="status">Статус</label>
+      <label for="status">Изменить Статус:</label>
       <select id="status" v-model="status">
         <option value="done">Завершён</option>
         <option value="canceled">Отменён</option>
@@ -76,6 +76,8 @@ p {
 div {
   display: flex;
   justify-content: center;
+  gap: 12px;
+  align-items: center;
 }
 
 div .form-control {
